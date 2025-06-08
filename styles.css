@@ -1,0 +1,111 @@
+/* ---------- Base styles ---------- */
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:"Helvetica Neue",sans-serif;
+  color:#333;
+  background:#fff;
+  line-height:1.6;
+}
+
+/* ---------- Shared header ---------- */
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 0;
+  border-bottom:1px solid #ddd;
+}
+
+.logo{font-size:24px;font-weight:bold;}
+
+nav a{
+  margin-left:20px;
+  text-decoration:none;
+  color:#333;
+  font-weight:500;
+  transition:color .2s;
+}
+nav a:hover{color:#007bff;}
+nav a.active{color:#007bff;}
+
+/* ---------- Main content ---------- */
+main{
+  max-width:900px;
+  margin:0 auto;
+  padding:40px 20px;
+}
+
+.page-title{
+  font-size:28px;
+  margin-bottom:20px;
+}
+
+/* ---------- Gallery grid ---------- */
+.gallery{
+  display:grid;
+  gap:20px;
+  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+}
+.gallery img{
+  width:100%;
+  border-radius:10px;
+  object-fit:cover;
+}
+
+/* ---------- Contact form ---------- */
+form{display:flex;flex-direction:column;}
+form label{margin-top:10px;font-weight:bold;}
+form input,form textarea{
+  padding:10px;
+  margin-top:5px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  font-size:16px;
+}
+form button{
+  margin-top:20px;
+  padding:12px;
+  background:#007bff;
+  border:none;
+  color:#fff;
+  font-size:16px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:background .2s;
+}
+form button:hover{background:#0056b3;}
+
+.contact-links{margin-top:20px;font-size:16px;}
+
+/* ---------- Map ---------- */
+.map-container{
+  margin-top:20px;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+
+.site-footer {
+  background-color: #333;
+  color: white;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.site-footer a {
+  color: #ddd;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.site-footer a:hover {
+  color: #fff;
+}
+
+.footer-map {
+  margin-top: 15px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}

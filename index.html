@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gallery – Dress Alterations</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+  <!-- Header inserted here -->
+  <div id="header-placeholder"></div>
+
+  <main>
+    <h1 class="page-title">Gallery</h1>
+
+    <!-- Simple responsive gallery grid -->
+    <section class="gallery">
+      <!-- Replace src values with your actual images -->
+      <img src="images/1.jpg" alt="Dress 1" />
+      <img src="images/2.jpg" alt="Rukia" />
+      <img src="images/3.jpg" alt="Jana" />
+      <img src="images/4.jpg" alt="Moaz" />
+      <img src="images/5.jpg" alt="Dress 5" />
+      <img src="images/6.jpg" alt="Dress 6" />
+    </section>
+  </main>
+
+  <!-- Footer inserted here -->
+  <div id="footer-placeholder"></div>
+  
+  <!-- Load the shared header -->
+  <script>
+    fetch("header.html")
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById("header-placeholder").innerHTML = html;
+
+        /* highlight active link automatically */
+        const page = "index";
+        document
+          .querySelector(`nav a[data-page="${page}"]`)
+          ?.classList.add("active");
+      });
+  </script>
+  <!-- Load the shared footer -->
+<script>
+  fetch("footer.html")
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById("footer-placeholder").innerHTML = html;
+    });
+</script>
+</body>
+</html>
