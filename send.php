@@ -1,55 +1,40 @@
 <?php
+require __DIR__ . '/vendor/autoload.php';   // Composer autoloader
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php'; // Make sure this path is correct
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $to = "thedrk162@gmail.com";  // Your receiving email
-    $subject = "New Contact Form Submission";
-
-    // Sanitize input
-    $first_name = htmlspecialchars($_POST["first_name"]);
-    $last_name = htmlspecialchars($_POST["last_name"]);
-    $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
-    $message = htmlspecialchars($_POST["message"]);
-
-    $body = "You received a new message:\n\n";
-    $body .= "Name: $first_name $last_name\n";
-    $body .= "Email: $email\n\n";
-    $body .= "Message:\n$message\n";
-
-    $mail = new PHPMailer(true);
-
-    try {
-        // Server settings
-        $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
-        $mail->SMTPAuth   = true;
-        $mail->Username   = 'workcv18@gmail.com';     // your Gmail address
-        $mail->Password   = 'pwtu yzwq objq mwqf';       // your Gmail App Password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
-
-        // Recipients
-        $mail->setFrom('yourgmail@gmail.com', 'Website Contact Form');
-        $mail->addAddress($to);
-        $mail->addReplyTo($email, "$first_name $last_name");
-
-        // Content
-        $mail->Subject = $subject;
-        $mail->Body    = $body;
-
-        $mail->send();
-        header("Location: contact.php?success=1");
-        exit;
-    } catch (Exception $e) {
-        // For debugging, temporarily show the error message
-        // Remove echo and just use redirect in production
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-        exit;
-    }
-} else {
-    header("Location: contact.php");
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: contact.php');
     exit;
+}
+
+$first = htmlspecialchars($_POST['first_name']);
+$last  = htmlspecialchars($_POST['last_name']);
+$from  = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+$msg   = htmlspecialchars($_POST['message']);
+
+$mail          = new PHPMailer(true);
+$mail->isSMTP();
+$mail->Host       = 'smtp.gmail.com';
+$mail->SMTPAuth   = true;
+$mail->Username   = $_ENV['SMTP_USER'] ?? 'workcv18@gmail.com';
+$mail->Password   = $_ENV['SMTP_PASS'] ?? 'pwtuyzwqobjqmwqf';   // 16-char app password
+$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+$mail->Port       = 587;
+
+$mail->setFrom('workcv18@gmail.com', 'Dress Alterations Website');
+$mail->addAddress('thedrk162@gmail.com');                  // destination
+$mail->addReplyTo($from, "$first $last");
+
+$mail->Subject = 'New Contact Form Submission';
+$mail->Body = "Name: $first $last\nEmail: $from\n\nMessage:\n$msg";
+
+try {
+    $mail->send();
+    header('Location: contact.php?success=1');
+} catch (Exception $e) {
+    // log real error server-side; show generic message to user
+    error_log('Mailer error: ' . $mail->ErrorInfo);
+    header('Location: contact.php?error=1');
 }
